@@ -1,0 +1,103 @@
+/* -------------------------------
+   General body styling
+---------------------------------*/
+body {
+    /* Background color fallback */
+    background-color: #f0f4f8;
+
+    /* Optional background image */
+    background-image: url('background.jpg'); /* make sure background.jpg is in static/ */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* Overlay to dim background for readability */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8); /* white overlay with transparency */
+    z-index: 0;
+}
+
+/* Content appears above overlay */
+.content {
+    position: relative;
+    z-index: 1;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+/* -------------------------------
+   Form styling
+---------------------------------*/
+form {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* -------------------------------
+   Card styling for recommendations
+---------------------------------*/
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* -------------------------------
+   Headings
+---------------------------------*/
+h1, h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* -------------------------------
+   Buttons
+---------------------------------*/
+button, .btn {
+    border-radius: 5px;
+}
+.cuisine-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cuisine-btn {
+    padding: 8px 14px;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: 0.3s ease;
+    border-width: 2px;
+}
+
+/* Highlight when selected */
+.btn-check:checked + .cuisine-btn {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+    transform: scale(1.05);
+}
+
+/* Hover effect */
+.cuisine-btn:hover {
+    transform: scale(1.05);
+}

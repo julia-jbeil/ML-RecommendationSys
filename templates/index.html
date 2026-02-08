@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Recommender</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="bg-light"
+    style="background-image: url('{{ url_for('static', filename='background.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
+
+    <div class="container py-5" style="background-color: rgba(255,255,255,0.92); border-radius: 10px;">
+        <h1 class="mb-4 text-center">Restaurant Recommender</h1>
+
+        <form method="post" class="mb-5">
+
+            <!-- City -->
+            <div class="mb-3">
+                <label class="form-label">City:</label>
+                <select name="city" class="form-select" required>
+
+                    {% for c in cities %}
+                    <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Cuisines Auto-complete -->
+            <div class="mb-3">
+                <label for="cuisines" class="form-label">Cuisines:</label>
+                <select name="cuisines" id="cuisines" class="form-control" multiple size="6" style="height:auto;">
+                    {% for cuisine in cuisines %}
+                    <option value="{{ cuisine }}">{{ cuisine }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <!-- Price and Top N -->
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Min Price ($):</label>
+                    <input type="number" name="min_price" class="form-control" value="0">
+                </div>
+                <div class="col">
+                    <label class="form-label">Max Price ($):</label>
+                    <input type="number" name="max_price" class="form-control" value="100">
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Get Recommendations</button>
+        </form>
+
+        {% if recommendations %}
+        <h2 class="mb-3">Recommendations:</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for r in recommendations %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ r.name }}</h5>
+                        <p class="mb-1"><strong>City:</strong> {{ r.city }}</p>
+                        <p class="mb-1">
+                            <strong>Price:</strong>
+                            {% if r.price == 0 %}
+                            N/A
+                            {% else %}
+                            {{ r.price }} $
+                            {% endif %}
+                        </p>
+                        <p class="mb-1"><strong>Rating:</strong> {{ r.avg_rating }}/50</p>
+                        <p class="mb-1"><strong>Cuisines:</strong> {{ r.type | join(', ') }}</p>
+                        <a href="{{ r.url }}" target="_blank" class="btn btn-sm btn-outline-primary">More Info</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                No restaurants found for the selected filters.
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Activate Select2 -->
+    <script>
+        $(document).ready(function () {
+            $('#cuisines').select2({
+                placeholder: "Select cuisines...",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
+
+</body>
+
+</html>
