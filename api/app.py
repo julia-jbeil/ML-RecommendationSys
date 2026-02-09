@@ -2,7 +2,11 @@ from flask import Flask, render_template, request
 import pandas as pd
 import os
 import sys
+import warnings
+from sklearn.exceptions import InconsistentVersionWarning
 
+# Ignore version mismatch warnings when unpickling scikit-learn objects
+warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 # ---------------- Fix import from parent folder ----------------
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)  # Add project root to Python path
