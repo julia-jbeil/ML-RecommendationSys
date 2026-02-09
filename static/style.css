@@ -10,7 +10,6 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -100,4 +99,24 @@ button, .btn {
 /* Hover effect */
 .cuisine-btn:hover {
     transform: scale(1.05);
+}
+
+.footer {
+    margin-top: auto;
+    padding: 15px 0;
+    text-align: center;
+    background-color: #f5f5f5;
+    color: #555;
+    font-size: 18px;
+    width: 100%;
+    border-radius: 3px;
+}
+html, body {
+    height: 100%;
+    padding: 5px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
 }
