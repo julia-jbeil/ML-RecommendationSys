@@ -1,18 +1,33 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import os
-from restaurant_recommender import recommend_restaurants
+import sys
+
+# ---------------- Fix import from parent folder ----------------
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)  # Add project root to Python path
+
+import restaurant_recommender  # ✅ Import the module
+
+# Optional: import recommend_restaurants function directly
+recommend_restaurants = restaurant_recommender.recommend_restaurants
+
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-app = Flask(__name__, template_folder="../templates", static_folder="../static")
+# ---------------- Flask app setup ----------------
+app = Flask(
+    __name__,
+    template_folder=os.path.join(PROJECT_ROOT, "templates"),
+    static_folder=os.path.join(PROJECT_ROOT, "static")
+)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
-# ---------- Load data ----------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'restaurants.csv')
-restaurants = pd.read_csv("https://github.com/julia-jbeil/ML-RecommendationSys/blob/main/data/restaurants.csv")
+# ---------------- Load data ----------------
+restaurants = pd.read_csv(
+    "https://raw.githubusercontent.com/julia-jbeil/ML-RecommendationSys/main/data/restaurants.csv"
+)
 
-# ---------- Prepare filters ----------
+# ---------------- Prepare filters ----------------
 cities = sorted(restaurants['city'].dropna().unique())
 cuisine_list = set()
 for row in restaurants['type'].dropna():
